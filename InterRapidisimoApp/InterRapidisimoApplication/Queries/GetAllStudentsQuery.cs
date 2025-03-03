@@ -22,7 +22,7 @@ public class GetAllStudentsQuery : IRequest<Result<IEnumerable<StudentDto>>>
         public async Task<Result<IEnumerable<StudentDto>>> Handle(GetAllStudentsQuery request, CancellationToken cancellationToken)
         {
             var students = await _studentRepository.GetAllAsync();
-            var studentsDto = _mapper.Map<IEnumerable<StudentDto>>(students);
+            var studentsDto = _mapper.Map<IEnumerable<StudentDto>>(students.Value);
             return Result.Success(studentsDto);
         }
     }

@@ -53,8 +53,7 @@ namespace InterRapidisimoData.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SurName")
                         .IsRequired()
@@ -88,18 +87,15 @@ namespace InterRapidisimoData.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SurName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -132,26 +128,11 @@ namespace InterRapidisimoData.Migrations
                     b.Property<Guid>("ProfessorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("StudentId1")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("StudentId2")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("SubjectId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("StudentId", "SubjectId");
 
                     b.HasIndex("ProfessorId");
 
-                    b.HasIndex("StudentId1");
-
-                    b.HasIndex("StudentId2");
-
                     b.HasIndex("SubjectId");
-
-                    b.HasIndex("SubjectId1");
 
                     b.ToTable("StudentSubjects");
                 });
@@ -167,12 +148,78 @@ namespace InterRapidisimoData.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("StudentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("StudentId");
+
                     b.ToTable("Subjects");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("50c4d991-48cd-43be-8f3e-7fc55d09d42c"),
+                            Credits = 3,
+                            Name = "Matemáticas"
+                        },
+                        new
+                        {
+                            Id = new Guid("013b09b2-f600-422b-ad5c-d74ad54cc6f8"),
+                            Credits = 3,
+                            Name = "Física"
+                        },
+                        new
+                        {
+                            Id = new Guid("2b4c30e3-ad0e-4e81-b3ed-9c4d62e4c832"),
+                            Credits = 3,
+                            Name = "Química"
+                        },
+                        new
+                        {
+                            Id = new Guid("54579c99-ec10-4c1b-9d74-f0c6046d8dfe"),
+                            Credits = 3,
+                            Name = "Historia"
+                        },
+                        new
+                        {
+                            Id = new Guid("f0f79865-b1dc-4936-8945-f71591b494e4"),
+                            Credits = 3,
+                            Name = "Lengua"
+                        },
+                        new
+                        {
+                            Id = new Guid("8aa27c1c-1083-4abf-811b-7f31cfc44863"),
+                            Credits = 3,
+                            Name = "Filosofía"
+                        },
+                        new
+                        {
+                            Id = new Guid("8509397b-202d-4c71-bf75-8d9a63b88fb7"),
+                            Credits = 3,
+                            Name = "Arte"
+                        },
+                        new
+                        {
+                            Id = new Guid("bc1b14a1-7185-4be1-9055-c68dcaff8108"),
+                            Credits = 3,
+                            Name = "Biología"
+                        },
+                        new
+                        {
+                            Id = new Guid("8a8b6eba-a378-4d81-ac8c-910072c2246b"),
+                            Credits = 3,
+                            Name = "Educación Físic"
+                        },
+                        new
+                        {
+                            Id = new Guid("e51f6e06-502a-436f-bc0a-e4796631dad0"),
+                            Credits = 3,
+                            Name = "Informática"
+                        });
                 });
 
             modelBuilder.Entity("InterRapidisimoDomain.Entities.ProfessorSubject", b =>
@@ -180,13 +227,13 @@ namespace InterRapidisimoData.Migrations
                     b.HasOne("InterRapidisimoDomain.Entities.Professor", "Professor")
                         .WithMany("ProfessorSubjects")
                         .HasForeignKey("ProfessorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("InterRapidisimoDomain.Entities.Subject", "Subject")
                         .WithMany("ProfessorSubjects")
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Professor");
@@ -216,40 +263,35 @@ namespace InterRapidisimoData.Migrations
             modelBuilder.Entity("InterRapidisimoDomain.Entities.StudentSubject", b =>
                 {
                     b.HasOne("InterRapidisimoDomain.Entities.Professor", "Professor")
-                        .WithMany()
+                        .WithMany("StudentSubjects")
                         .HasForeignKey("ProfessorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("InterRapidisimoDomain.Entities.Student", "Student")
-                        .WithMany("StudentCourses")
+                        .WithMany("StudentSubjects")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("InterRapidisimoDomain.Entities.Student", null)
-                        .WithMany("EnrolledCourses")
-                        .HasForeignKey("StudentId1");
-
-                    b.HasOne("InterRapidisimoDomain.Entities.Student", null)
-                        .WithMany("StudentSubjects")
-                        .HasForeignKey("StudentId2");
-
                     b.HasOne("InterRapidisimoDomain.Entities.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("InterRapidisimoDomain.Entities.Subject", null)
                         .WithMany("StudentSubjects")
-                        .HasForeignKey("SubjectId1");
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Professor");
 
                     b.Navigation("Student");
 
                     b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("InterRapidisimoDomain.Entities.Subject", b =>
+                {
+                    b.HasOne("InterRapidisimoDomain.Entities.Student", null)
+                        .WithMany("EnrolledSubjects")
+                        .HasForeignKey("StudentId");
                 });
 
             modelBuilder.Entity("InterRapidisimoDomain.Entities.CreditProgram", b =>
@@ -260,13 +302,13 @@ namespace InterRapidisimoData.Migrations
             modelBuilder.Entity("InterRapidisimoDomain.Entities.Professor", b =>
                 {
                     b.Navigation("ProfessorSubjects");
+
+                    b.Navigation("StudentSubjects");
                 });
 
             modelBuilder.Entity("InterRapidisimoDomain.Entities.Student", b =>
                 {
-                    b.Navigation("EnrolledCourses");
-
-                    b.Navigation("StudentCourses");
+                    b.Navigation("EnrolledSubjects");
 
                     b.Navigation("StudentCreditPrograms");
 

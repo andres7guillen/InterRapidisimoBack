@@ -9,5 +9,6 @@ public interface IProfessorRepository
     Task<Maybe<Professor>>? GetById(Guid id);
     Task<Result<List<Professor>>> GetAll();
     Task<Result<Professor>> Update(Professor professor);
-
+    Task<Result<bool>> Delete(Professor professor);
+    Task<Result<int>> CountWithTwoSubjectsAsync();
 }

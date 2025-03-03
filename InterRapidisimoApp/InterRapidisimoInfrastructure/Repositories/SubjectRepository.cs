@@ -36,4 +36,14 @@ public class SubjectRepository : ISubjectRepository
             ? Maybe.None
             : Maybe.From(subject);
     }
+
+    public async Task<Result<List<Subject>>> GetSubjectsByProfessorId(Guid professorId)
+    {
+        var list = await _context.Subjects
+            .Where(s => s.ProfessorSubjects.Any(ps => ps.ProfessorId == professorId))
+            .ToListAsync();
+        return list.Count >= 1
+            ? Result.Success(list)
+            : Result.Failure<List<Subject>>("There are not subjects that professor teaches");
+    }
 }

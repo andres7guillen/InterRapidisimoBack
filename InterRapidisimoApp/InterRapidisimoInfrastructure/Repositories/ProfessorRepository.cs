@@ -48,4 +48,19 @@ public class ProfessorRepository : IProfessorRepository
         await _context.SaveChangesAsync();
         return professor;
     }
+
+    public async Task<Result<bool>> Delete(Professor professor)
+    {
+        _context.Professors.Remove(professor);
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    public async Task<Result<int>> CountWithTwoSubjectsAsync()
+    {
+        var count = await _context.Professors
+            .CountAsync(p => p.ProfessorSubjects.Count >= 2);
+        return count >= 1
+            ? Result.Success(count)
+            : Result.Failure<int>("Tere are not professors who teach more than 2 subjects");
+    }
 }

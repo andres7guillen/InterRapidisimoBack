@@ -11,8 +11,8 @@ public class Professor
     public string Name { get; private set; } = string.Empty;
     public string SurName { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
-
-    public IReadOnlyCollection<ProfessorSubject> ProfessorSubjects => _professorSubjects.AsReadOnly();
+    public List<ProfessorSubject> ProfessorSubjects { get; set; } = new();
+    public List<StudentSubject> StudentSubjects { get; private set; } = new();
     private Professor() { }
     private Professor(string name, string surname, string email)
     {
