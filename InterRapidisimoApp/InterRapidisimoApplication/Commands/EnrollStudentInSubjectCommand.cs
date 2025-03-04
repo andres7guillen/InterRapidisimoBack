@@ -42,6 +42,7 @@ public class EnrollStudentInSubjectCommand : IRequest<Result<bool>>
             if (studentResult.IsFailure) 
                 return Result.Failure<bool>(studentResult.Error);
             var student = studentResult.Value;
+            
             var subjectResult = await _subjectRepository.GetById(request.SubjectId);
             if (subjectResult.HasNoValue) return Result.Failure<bool>("Subject not found");
             var subject = subjectResult.Value;
@@ -61,8 +62,7 @@ public class EnrollStudentInSubjectCommand : IRequest<Result<bool>>
             var studentSubject = new StudentSubject(student, subject, professor);
             student.AddStudentSubject(studentSubject);
             var creationResult = await _studentSubjectRepository.CreateStudentSubjectAsync(studentSubject);
-            await _studentRepository.UpdateStudent(student);
-            return Result.Success(true);
+            return Result.Success(creationResult.IsSuccess);
 
         }
 

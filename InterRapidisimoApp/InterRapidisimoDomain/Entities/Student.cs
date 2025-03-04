@@ -5,6 +5,7 @@ namespace InterRapidisimoDomain.Entities;
 public class Student
 {
     private readonly List<Subject> _subjects = new();
+    private readonly List<StudentSubject> _studentSubjects = new();
     private readonly List<StudentCreditProgram> _creditPrograms = new();
 
     public Guid Id { get; private set; } = Guid.NewGuid();
@@ -12,10 +13,10 @@ public class Student
     public string SurName { get; private set; }
     public string Email { get; private set; }
 
+    public IReadOnlyCollection<StudentSubject> StudentSubjects => _studentSubjects.AsReadOnly();
     public IReadOnlyCollection<Subject> EnrolledSubjects => _subjects.AsReadOnly();
     private readonly List<StudentCreditProgram> _studentCreditPrograms = new();
     public IReadOnlyCollection<StudentCreditProgram> StudentCreditPrograms => _studentCreditPrograms.AsReadOnly();
-    public List<StudentSubject> StudentSubjects { get; private set; } = new();
 
     private Student(string name, string surname, string email)
     {
@@ -37,10 +38,9 @@ public class Student
     }
     public Result AddStudentSubject(StudentSubject studentSubject)
     {
-        StudentSubjects.Add(studentSubject);
+        _studentSubjects.Add(studentSubject);
         return Result.Success();
     }
-
     public Result EnrollInCreditProgram(StudentCreditProgram program)
     {
         if (program == null)

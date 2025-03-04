@@ -29,14 +29,19 @@ namespace InterRapidisimoApplication.Queries
             {
                 var student = await _studentRepository.GetByIdWithSubjectsAsync(request.StudentId);
                 if (student.HasNoValue)
-                    return Result.Failure<List<ClassmateDto>>("Student noy found.");
+                    return Result.Failure<List<ClassmateDto>>("Student not found.");
 
                 var subjectIds = student.Value.StudentSubjects.Select(ss => ss.SubjectId).ToList();
 
                 var classmates = await _studentRepository.GetClassmatesAsync(subjectIds, request.StudentId);
                 if (classmates.IsFailure)
                     return Result.Failure<List<ClassmateDto>>(classmates.Error);
-                var classmatesDto = _mapper.Map<List<ClassmateDto>>(classmates);
+                var classmatesDto = classmates.Value
+                .Select(classmate =>
+                {
+                    return new ClassmateDto(classmate.Id, classmate.Name, classmate.SurName, classmate.StudentSubjects.First().Subject.Name ?? "Unknown");
+                })
+                .ToList();
 
                 return Result.Success(classmatesDto);
             }
