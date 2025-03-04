@@ -1,3 +1,4 @@
+using InterRapidisimoApi.Utilities;
 using InterRapidisimoData.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,11 +12,22 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost4200", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")   
+              .AllowAnyHeader()                      
+              .AllowAnyMethod();                     
+    });
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.RegisterBusinessServices();
 
 var app = builder.Build();
+app.UseCors("AllowLocalhost4200");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

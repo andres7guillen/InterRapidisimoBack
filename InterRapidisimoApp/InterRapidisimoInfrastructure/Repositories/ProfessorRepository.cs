@@ -37,7 +37,7 @@ public class ProfessorRepository : IProfessorRepository
         var list = await _context.Professors
             .Include(p => p.ProfessorSubjects)
             .ToListAsync();
-        return list.Count > 1
+        return list.Count >= 1
             ? Result.Success(list)
             : Result.Failure<List<Professor>>("There's no professors created");
     }
@@ -47,5 +47,19 @@ public class ProfessorRepository : IProfessorRepository
         _context.Professors.Update(professor);
         await _context.SaveChangesAsync();
         return professor;
+    }
+
+    public async Task<Result<bool>> Delete(Professor professor)
+    {
+        _context.Professors.Remove(professor);
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    public async Task<Result<int>> CountWithTwoSubjectsAsync()
+    {
+        var count = await _context.Professors
+            .CountAsync(p => p.ProfessorSubjects.Count >= 2);
+        return Result.Success(count);
+            
     }
 }

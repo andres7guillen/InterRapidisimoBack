@@ -12,6 +12,7 @@ namespace InterRapidisimoDomain.Entities
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
-        public ICollection<StudentCreditProgram> StudentCreditPrograms { get; set; } = new List<StudentCreditProgram>();
+        private readonly List<StudentCreditProgram> _studentCreditPrograms = new();
+        public IReadOnlyCollection<StudentCreditProgram> StudentCreditPrograms => _studentCreditPrograms.AsReadOnly();
     }
 }

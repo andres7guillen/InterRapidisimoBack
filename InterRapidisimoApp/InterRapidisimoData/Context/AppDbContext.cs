@@ -1,75 +1,75 @@
-﻿using InterRapidisimoDomain.Entities;
+﻿using InterRapidisimoData.SeedData;
+using InterRapidisimoDomain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace InterRapidisimoData.Context
+namespace InterRapidisimoData.Context;
+public class AppDbContext : DbContext
 {
-    public class AppDbContext : DbContext
+    public AppDbContext(){}
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+    public DbSet<Student> Students { get; set; }
+    public DbSet<Subject> Subjects { get; set; }
+    public DbSet<Professor> Professors { get; set; }
+    public DbSet<CreditProgram> CreditPrograms { get; set; }
+    public DbSet<StudentSubject> StudentSubjects { get; set; }
+    public DbSet<StudentCreditProgram> StudentCreditPrograms { get; set; }
+    public DbSet<ProfessorSubject> ProfessorSubjects { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        public AppDbContext(DbContextOptions options) : base(options){}
+        modelBuilder.Entity<StudentSubject>()
+        .HasKey(ss => new { ss.StudentId, ss.SubjectId });
 
-        public DbSet<Student> Students { get; set; }
-        public DbSet<CreditProgram> CreditPrograms { get; set; }
-        public DbSet<Subject> Subjects { get; set; }
-        public DbSet<Professor> Professors { get; set; }
-        public DbSet<StudentCreditProgram> StudentCreditPrograms { get; set; }
-        public DbSet<ProfessorSubject> ProfessorSubjects { get; set; }
-        public DbSet<StudentSubject> StudentSubjects { get; set; }
+        modelBuilder.Entity<StudentSubject>()
+        .HasOne(ss => ss.Student)
+        .WithMany(s => s.StudentSubjects)
+        .HasForeignKey(ss => ss.StudentId)
+        .OnDelete(DeleteBehavior.Cascade);
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Student>(entity =>
-            {
-                entity.HasKey(s => s.Id);
-                entity.Property(s => s.Name).IsRequired().HasMaxLength(100);
-                entity.Property(s => s.SurName).IsRequired().HasMaxLength(100);
-                entity.Property(s => s.Email).IsRequired().HasMaxLength(255);
-            });
+        modelBuilder.Entity<StudentSubject>()
+        .HasOne(ss => ss.Subject)
+        .WithMany(s => s.StudentSubjects)
+        .HasForeignKey(ss => ss.SubjectId)
+        .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Subject>(entity =>
-            {
-                entity.HasKey(c => c.Id);
-                entity.Property(c => c.Name).IsRequired().HasMaxLength(100);
-                entity.Property(c => c.Credits).IsRequired();
-            });
+        modelBuilder.Entity<StudentSubject>()
+        .HasOne(ss => ss.Professor)
+        .WithMany(p => p.StudentSubjects)
+        .HasForeignKey(ss => ss.ProfessorId)
+        .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<StudentCreditProgram>()
-                .HasKey(scp => new { scp.StudentId, scp.CreditProgramId });
+        modelBuilder.Entity<ProfessorSubject>()
+        .HasKey(ps => new { ps.ProfessorId, ps.SubjectId });
 
-            modelBuilder.Entity<Professor>(entity =>
-            {
-                entity.HasKey(p => p.Id);
-                entity.Property(p => p.Name).IsRequired().HasMaxLength(100);
-            });
+        modelBuilder.Entity<ProfessorSubject>()
+            .HasOne(ps => ps.Professor)
+            .WithMany(p => p.ProfessorSubjects)
+            .HasForeignKey(ps => ps.ProfessorId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<ProfessorSubject>()
-                .HasKey(ps => new { ps.ProfessorId, ps.SubjectId });
+        modelBuilder.Entity<ProfessorSubject>()
+            .HasOne(ps => ps.Subject)
+            .WithMany(s => s.ProfessorSubjects)
+            .HasForeignKey(ps => ps.SubjectId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<StudentSubject>(entity =>
-            {
-                entity.HasKey(sc => new { sc.StudentId, sc.SubjectId });
+        modelBuilder.Entity<StudentCreditProgram>()
+        .HasKey(scp => new { scp.StudentId, scp.CreditProgramId });
 
-                entity.HasOne(sc => sc.Student)
-                      .WithMany(s => s.StudentCourses)
-                      .HasForeignKey(sc => sc.StudentId)
-                      .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<StudentCreditProgram>()
+            .HasOne(scp => scp.Student)
+            .WithMany(s => s.StudentCreditPrograms)
+            .HasForeignKey(scp => scp.StudentId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasOne(sc => sc.Subject)
-                      .WithMany()
-                      .HasForeignKey(sc => sc.SubjectId)
-                      .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<StudentCreditProgram>()
+            .HasOne(scp => scp.CreditProgram)
+            .WithMany(cp => cp.StudentCreditPrograms)
+            .HasForeignKey(scp => scp.CreditProgramId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasOne(sc => sc.Professor)
-                      .WithMany()
-                      .HasForeignKey(sc => sc.ProfessorId)
-                      .OnDelete(DeleteBehavior.Restrict);
-            });
-
-            base.OnModelCreating(modelBuilder);
-        }
+        SubjectSeeder.SeedSubjects(modelBuilder);
+        base.OnModelCreating(modelBuilder);
     }
 }
