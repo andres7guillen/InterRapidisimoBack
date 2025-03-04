@@ -63,7 +63,9 @@ public class StudentRepository : IStudentRepository
     public async Task<Result<IEnumerable<Student>>> GetClassmatesAsync(IEnumerable<Guid> subjectIds, Guid studentId)
     {
         var classmates = await _context.Students
-        .Where(s => s.StudentSubjects.Any(ss => subjectIds.Contains(ss.SubjectId)) && s.Id != studentId)
+        .Include(s => s.StudentSubjects)   
+            .ThenInclude(ss => ss.Subject)
+        .Where(s => s.Id != studentId && s.StudentSubjects.Any(ss => subjectIds.Contains(ss.SubjectId)))
         .ToListAsync();
 
         return classmates.Any()
