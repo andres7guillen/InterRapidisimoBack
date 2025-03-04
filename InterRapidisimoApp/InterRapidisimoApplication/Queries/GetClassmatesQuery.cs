@@ -39,7 +39,7 @@ namespace InterRapidisimoApplication.Queries
                 var classmatesDto = classmates.Value
                 .Select(classmate =>
                 {
-                    return new ClassmateDto(classmate.Id, classmate.Name, classmate.SurName, classmate.StudentSubjects.First().Subject.Name ?? "Unknown");
+                    return new ClassmateDto(classmate.Id, classmate.Name, classmate.SurName, classmate.StudentSubjects.FirstOrDefault()?.Subject.Name ?? "Unknown");
                 })
                 .ToList();
 
