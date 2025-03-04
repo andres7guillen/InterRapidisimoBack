@@ -19,7 +19,9 @@ public class ProfessorService : IProfessorService
         if (professor.IsFailure)
             return Result.Failure<Professor>(professor.Error);
 
-        await _professorRepository.CreateProfessor(professor.Value);
-        return Result.Success(professor.Value);
+        var professorCreated = await _professorRepository.CreateProfessor(professor.Value);
+        return professorCreated.IsSuccess
+            ? Result.Success(professor.Value)
+            : Result.Failure<Professor>($"Error creating professor {name} {surname}");
     }
 }

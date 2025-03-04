@@ -22,6 +22,17 @@ public class StudentRepository : IStudentRepository
         return Result.Success(student);
     }
 
+    public async Task<Result<bool>> Delete(Guid id)
+    {
+        var student = await _context.Students.FindAsync(id);
+        if (student == null)
+            return Result.Failure<bool>("Error removing student");
+        _context.Students.Remove(student);
+        return await _context.SaveChangesAsync() > 0
+            ? Result.Success(true)
+            : Result.Failure<bool>("Error removing subject");
+    }
+
     public async Task<Result<IEnumerable<Student>>> GetAllAsync()
     {
         return await _context.Students

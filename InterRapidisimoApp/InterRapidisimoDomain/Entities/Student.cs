@@ -4,7 +4,6 @@ namespace InterRapidisimoDomain.Entities;
 
 public class Student
 {
-    private const int MaxSubjects = 3;
     private readonly List<Subject> _subjects = new();
     private readonly List<StudentCreditProgram> _creditPrograms = new();
 
@@ -35,6 +34,11 @@ public class Student
             return Result.Failure<Student>("Invalid email.");
 
         return Result.Success(new Student(name, surname, email));
+    }
+    public Result AddStudentSubject(StudentSubject studentSubject)
+    {
+        StudentSubjects.Add(studentSubject);
+        return Result.Success();
     }
 
     public Result EnrollInCreditProgram(StudentCreditProgram program)

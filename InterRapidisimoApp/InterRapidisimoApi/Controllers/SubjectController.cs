@@ -34,6 +34,18 @@ public class SubjectController : ControllerBase
         }
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAllSubjects()
+    {
+        var query = new GetAllSubjectsQuery();
+        var result = await _mediator.Send(query);
+        if (result.IsSuccess)
+        {
+            return Ok(result.Value);
+        }
+        return BadRequest(result.Error);
+    }
+
     [HttpGet("{id}/students")]
     public async Task<IActionResult> GetStudentsInSubject(Guid id)
     {
@@ -66,6 +78,22 @@ public class SubjectController : ControllerBase
         {
 
             return BadRequest(e.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        try
+        {
+            var result = await _mediator.Send(new DeleteSubjectCommand(id));
+            if (result.IsSuccess)
+                return Ok(result.Value);
+            return BadRequest(result.Error);
+        }
+        catch (Exception)
+        {
+            throw;
         }
     }
 }

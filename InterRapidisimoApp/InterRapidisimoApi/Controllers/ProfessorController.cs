@@ -18,6 +18,27 @@ public class ProfessorController : ControllerBase
         _mediator = mediator;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAllProfessors()
+    {
+        try
+        {
+            var query = new GetAllProfessorsQuery();
+            var result = await _mediator.Send(query);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            return BadRequest(result.Error);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+            throw;
+        }
+        
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProfessorById(Guid id)
     {
@@ -96,5 +117,14 @@ public class ProfessorController : ControllerBase
             return BadRequest(result.Error);
 
         return Ok(result.IsSuccess);
+    }
+
+    [HttpGet("by-subject/{subjectId}")]
+    public async Task<IActionResult> GetProfessorsBySubject(Guid subjectId)
+    {
+        var query = new GetProfessorsBySubjectQuery(subjectId);
+        var result = await _mediator.Send(query);
+
+        return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
     }
 }

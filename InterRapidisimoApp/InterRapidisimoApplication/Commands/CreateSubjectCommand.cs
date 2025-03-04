@@ -10,12 +10,10 @@ namespace InterRapidisimoApplication.Commands;
 public class CreateSubjectCommand : IRequest<Result<SubjectDto>>
 {
     public string Name { get; }
-    public int Credits { get; }
 
-    public CreateSubjectCommand(string name, int credits)
+    public CreateSubjectCommand(string name)
     {
         Name = name;
-        Credits = credits;
     }
 
     public class CreateSubjectCommandHandler : IRequestHandler<CreateSubjectCommand, Result<SubjectDto>>

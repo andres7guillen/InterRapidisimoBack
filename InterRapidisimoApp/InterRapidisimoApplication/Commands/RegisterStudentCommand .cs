@@ -4,11 +4,6 @@ using InterRapidisimoDomain.DTOs;
 using InterRapidisimoDomain.Entities;
 using InterRapidisimoDomain.Repositories;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InterRapidisimoApplication.Commands;
 

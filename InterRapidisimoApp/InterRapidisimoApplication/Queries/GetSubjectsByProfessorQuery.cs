@@ -29,6 +29,8 @@ public class GetSubjectsByProfessorQuery : IRequest<Result<List<SubjectDto>>>
         public async Task<Result<List<SubjectDto>>> Handle(GetSubjectsByProfessorQuery request, CancellationToken cancellationToken)
         {
             var subjects = await _subjectRepository.GetSubjectsByProfessorId(request.ProfessorId);
+            if(subjects.IsFailure)
+                return Result.Failure<List<SubjectDto>>("There are not subjects that professor teach");
             return Result.Success(_mapper.Map<List<SubjectDto>>(subjects.Value));
         }
     }

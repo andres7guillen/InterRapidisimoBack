@@ -17,6 +17,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IStudentRepository, StudentRepository>();
         services.AddScoped<ISubjectRepository, SubjectRepository>();
         services.AddScoped<IProfessorRepository, ProfessorRepository>();
+        services.AddScoped<ICreditProgramRepository, CreditProgramRepository>();
+        services.AddScoped<IStudentSubjectRepository, StudentSubjectRepository>();
 
         // AutoMapper - Registra todos los perfiles
         services.AddAutoMapper(cfg =>
@@ -39,6 +41,7 @@ public static class ServiceCollectionExtensions
             typeof(CreateProfessorCommand).Assembly,
             typeof(RegisterStudentCommand).Assembly,
             typeof(CreateSubjectCommand).Assembly,
+            typeof(EnrollStudentInCreditProgramCommand).Assembly,
             typeof(GetAllStudentsQuery).Assembly,
             typeof(GetClassmatesQuery).Assembly,
             typeof(GetProfessorByIdQuery).Assembly,

@@ -33,16 +33,14 @@ public class AssignSubjectToProfessorCommand : IRequest<Result>
         {
             var professor = await _professorRepository.GetById(request.ProfessorId);
             if (professor.HasNoValue)
-                return Result.Failure("Professor does not exist.");
+                return Result.Failure("Professor not found.");
 
             var subject = await _subjectRepository.GetById(request.SubjectId);
             if (subject.HasNoValue)
-                return Result.Failure("Subject does not exist.");
+                return Result.Failure("Subject not found.");
 
-            // Contamos cuántos profesores tienen 2 materias asignadas
             var professorsWithTwoSubjects = await _professorRepository.CountWithTwoSubjectsAsync();
 
-            // Nueva validación: Solo bloqueamos si ya hay 5 profesores con 2 materias y este profesor quiere asignarse una segunda
             if (professorsWithTwoSubjects.Value >= MaxProfessorsWithTwoSubjects && professor.Value.ProfessorSubjects.Count >= 1)
                 return Result.Failure("Already there are 5 professors teaching 2 subjects");
 

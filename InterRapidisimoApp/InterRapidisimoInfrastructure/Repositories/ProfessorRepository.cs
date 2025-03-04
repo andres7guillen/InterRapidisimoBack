@@ -37,7 +37,7 @@ public class ProfessorRepository : IProfessorRepository
         var list = await _context.Professors
             .Include(p => p.ProfessorSubjects)
             .ToListAsync();
-        return list.Count > 1
+        return list.Count >= 1
             ? Result.Success(list)
             : Result.Failure<List<Professor>>("There's no professors created");
     }
@@ -59,8 +59,7 @@ public class ProfessorRepository : IProfessorRepository
     {
         var count = await _context.Professors
             .CountAsync(p => p.ProfessorSubjects.Count >= 2);
-        return count >= 1
-            ? Result.Success(count)
-            : Result.Failure<int>("Tere are not professors who teach more than 2 subjects");
+        return Result.Success(count);
+            
     }
 }
