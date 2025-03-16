@@ -27,7 +27,7 @@ public class DeleteProfessorCommand : IRequest<Result<bool>>
             var result = await _repository.Delete(professor.Value);
             return result.IsSuccess
                 ? Result.Success<bool>(result.Value)
-                : Result.Failure<bool>("Error emoving the professor");
+                : Result.Failure<bool>("Error removing the professor");
         }
     }
 
