@@ -5,23 +5,38 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{182154EA-958B-4893-9D6F-F5E09276069D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterRapidisimoApi", "InterRapidisimoApi\InterRapidisimoApi.csproj", "{3BCC977C-1546-4F87-B71C-81D160FC2F12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterRapidisimoApi", "InterRapidisimoApi\InterRapidisimoApi.csproj", "{3BCC977C-1546-4F87-B71C-81D160FC2F12}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{81F0B2CE-D84F-43DC-994E-0DB5FDF41C52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterRapidisimoData", "InterRapidisimoData\InterRapidisimoData.csproj", "{333FAE86-73C1-4814-B3A8-3D00B5FA5121}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterRapidisimoData", "InterRapidisimoData\InterRapidisimoData.csproj", "{333FAE86-73C1-4814-B3A8-3D00B5FA5121}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{D4586D53-9BE5-44BC-A736-6800F9B1EFC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterRapidisimoDomain", "InterRapidisimoDomain\InterRapidisimoDomain.csproj", "{7531FD21-B299-48DE-9958-DFB1085781E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterRapidisimoDomain", "InterRapidisimoDomain\InterRapidisimoDomain.csproj", "{7531FD21-B299-48DE-9958-DFB1085781E7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{C381160F-0A6B-42F9-A3DB-44D62F0629DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterRapidisimoInfrastructure", "InterRapidisimoInfrastructure\InterRapidisimoInfrastructure.csproj", "{E1DE2EA3-F238-43F7-AB9A-0988A4A62DC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterRapidisimoInfrastructure", "InterRapidisimoInfrastructure\InterRapidisimoInfrastructure.csproj", "{E1DE2EA3-F238-43F7-AB9A-0988A4A62DC2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{10A39BE5-76E2-48B3-9CBD-A8B97A1464AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterRapidisimoApplication", "InterRapidisimoApplication\InterRapidisimoApplication.csproj", "{FBD58CE2-37CA-4CC6-A9A1-16C5D56813D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterRapidisimoApplication", "InterRapidisimoApplication\InterRapidisimoApplication.csproj", "{FBD58CE2-37CA-4CC6-A9A1-16C5D56813D1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{8CE336E7-4859-4DD3-B844-6B4146E026CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{84FCF11C-1692-46E5-BEA3-3A5D2DD6E065}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lambda", "Lambda", "{165B8F34-791A-4D82-90F7-629441CBC01E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaDockerTest", "Lambda\LambdaDockerTest\src\LambdaDockerTest\LambdaDockerTest.csproj", "{F6717B1B-3586-4FE2-8EBB-F1BC5ABBAA5E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CharacterDetail", "Lambda\CharacterDetail\src\CharacterDetail\CharacterDetail.csproj", "{220309ED-94AA-4610-A545-94938B443E3D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaCalculator", "Lambda\LambdaCalculator\src\LambdaCalculator\LambdaCalculator.csproj", "{7CCF2D46-85CF-4C5A-B071-3EB7A2C7B6A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +64,22 @@ Global
 		{FBD58CE2-37CA-4CC6-A9A1-16C5D56813D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBD58CE2-37CA-4CC6-A9A1-16C5D56813D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBD58CE2-37CA-4CC6-A9A1-16C5D56813D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CE336E7-4859-4DD3-B844-6B4146E026CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CE336E7-4859-4DD3-B844-6B4146E026CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CE336E7-4859-4DD3-B844-6B4146E026CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CE336E7-4859-4DD3-B844-6B4146E026CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6717B1B-3586-4FE2-8EBB-F1BC5ABBAA5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6717B1B-3586-4FE2-8EBB-F1BC5ABBAA5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6717B1B-3586-4FE2-8EBB-F1BC5ABBAA5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6717B1B-3586-4FE2-8EBB-F1BC5ABBAA5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{220309ED-94AA-4610-A545-94938B443E3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{220309ED-94AA-4610-A545-94938B443E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{220309ED-94AA-4610-A545-94938B443E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{220309ED-94AA-4610-A545-94938B443E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CCF2D46-85CF-4C5A-B071-3EB7A2C7B6A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CCF2D46-85CF-4C5A-B071-3EB7A2C7B6A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CCF2D46-85CF-4C5A-B071-3EB7A2C7B6A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CCF2D46-85CF-4C5A-B071-3EB7A2C7B6A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +90,10 @@ Global
 		{7531FD21-B299-48DE-9958-DFB1085781E7} = {D4586D53-9BE5-44BC-A736-6800F9B1EFC1}
 		{E1DE2EA3-F238-43F7-AB9A-0988A4A62DC2} = {C381160F-0A6B-42F9-A3DB-44D62F0629DD}
 		{FBD58CE2-37CA-4CC6-A9A1-16C5D56813D1} = {10A39BE5-76E2-48B3-9CBD-A8B97A1464AF}
+		{8CE336E7-4859-4DD3-B844-6B4146E026CD} = {C381160F-0A6B-42F9-A3DB-44D62F0629DD}
+		{F6717B1B-3586-4FE2-8EBB-F1BC5ABBAA5E} = {165B8F34-791A-4D82-90F7-629441CBC01E}
+		{220309ED-94AA-4610-A545-94938B443E3D} = {165B8F34-791A-4D82-90F7-629441CBC01E}
+		{7CCF2D46-85CF-4C5A-B071-3EB7A2C7B6A9} = {165B8F34-791A-4D82-90F7-629441CBC01E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {096DA2A8-68CC-47B7-84C4-184ABBD8BFEC}

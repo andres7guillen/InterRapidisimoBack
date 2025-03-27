@@ -9,7 +9,12 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+
 COPY ["InterRapidisimoApi/InterRapidisimoApi.csproj", "InterRapidisimoApi/"]
+COPY ["InterRapidisimoApplication/InterRapidisimoApplication.csproj", "InterRapidisimoApplication/"]
+COPY ["InterRapidisimoData/InterRapidisimoData.csproj", "InterRapidisimoData/"]
+COPY ["InterRapidisimoDomain/InterRapidisimoDomain.csproj", "InterRapidisimoDomain/"]
+COPY ["InterRapidisimoInfrastructure/InterRapidisimoInfrastructure.csproj", "InterRapidisimoInfrastructure/"]
 RUN dotnet restore "./InterRapidisimoApi/InterRapidisimoApi.csproj"
 COPY . .
 WORKDIR "/src/InterRapidisimoApi"
