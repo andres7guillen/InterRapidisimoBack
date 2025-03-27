@@ -4,9 +4,15 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//var connectionString = builder.Configuration.GetConnectionString("DbConnection");
+//Console.WriteLine($"[DEBUG] Connection string usada: {connectionString}");
+var connectionString = builder.Configuration.GetConnectionString("DbConnection");
+
+Console.WriteLine($"[DEBUG] Connection string: {connectionString}");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DbContext"));
+    options.UseSqlServer(connectionString);
 });
 
 // Add services to the container.
@@ -41,5 +47,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+using (var scope = app.Services.CreateScope()) 
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
 
-app.Run();
+    app.Run();

@@ -20,7 +20,7 @@ namespace InterRapidisimoData.Context
                 .AddJsonFile($"appsettings.{environment}.json", optional: true)
                 .Build();
 
-            var connectionString = configuration.GetConnectionString("DbContext");
+            var connectionString = configuration.GetConnectionString("DbConnection");
             optionsBuilder.UseSqlServer(connectionString);
 
             return new AppDbContext(optionsBuilder.Options);
