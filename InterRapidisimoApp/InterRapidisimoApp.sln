@@ -38,6 +38,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CharacterDetail", "Lambda\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaCalculator", "Lambda\LambdaCalculator\src\LambdaCalculator\LambdaCalculator.csproj", "{7CCF2D46-85CF-4C5A-B071-3EB7A2C7B6A9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{8D4D117B-0651-4085-B8D9-9B1794E36124}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterRapidisimoTests", "InterRapidisimoTests\InterRapidisimoTests.csproj", "{3FE8453B-C7C8-44E1-817C-67D4B1075D95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +84,10 @@ Global
 		{7CCF2D46-85CF-4C5A-B071-3EB7A2C7B6A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CCF2D46-85CF-4C5A-B071-3EB7A2C7B6A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CCF2D46-85CF-4C5A-B071-3EB7A2C7B6A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FE8453B-C7C8-44E1-817C-67D4B1075D95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FE8453B-C7C8-44E1-817C-67D4B1075D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FE8453B-C7C8-44E1-817C-67D4B1075D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FE8453B-C7C8-44E1-817C-67D4B1075D95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +102,7 @@ Global
 		{F6717B1B-3586-4FE2-8EBB-F1BC5ABBAA5E} = {165B8F34-791A-4D82-90F7-629441CBC01E}
 		{220309ED-94AA-4610-A545-94938B443E3D} = {165B8F34-791A-4D82-90F7-629441CBC01E}
 		{7CCF2D46-85CF-4C5A-B071-3EB7A2C7B6A9} = {165B8F34-791A-4D82-90F7-629441CBC01E}
+		{3FE8453B-C7C8-44E1-817C-67D4B1075D95} = {8D4D117B-0651-4085-B8D9-9B1794E36124}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {096DA2A8-68CC-47B7-84C4-184ABBD8BFEC}
