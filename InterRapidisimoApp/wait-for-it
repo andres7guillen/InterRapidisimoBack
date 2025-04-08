@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Variables de entorno (pueden ser pasadas desde docker-compose o heredadas del entorno)
+HOST="${SQLSERVER_HOST:-sqlserver}"
+PORT=1433
+
+echo "Esperando a que $HOST:$PORT esté disponible..."
+
+# Intentar conexión hasta que esté disponible
+while ! nc -z $HOST $PORT; do
+  echo "Base de datos aún no disponible en $HOST:$PORT, esperando..."
+  sleep 2
+done
+
+echo "Base de datos disponible. Ejecutando comando: $@"
+exec "$@"

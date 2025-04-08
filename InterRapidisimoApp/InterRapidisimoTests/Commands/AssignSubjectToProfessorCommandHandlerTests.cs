@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 using InterRapidisimoApplication.Commands;
 using InterRapidisimoDomain.Entities;
 using InterRapidisimoDomain.Repositories;
@@ -112,6 +111,4 @@ public class AssignSubjectToProfessorCommandHandlerTests
         Assert.True(result.IsSuccess);
         _professorRepositoryMock.Verify(repo => repo.Update(professor), Times.Once);
     }
-
-
 }

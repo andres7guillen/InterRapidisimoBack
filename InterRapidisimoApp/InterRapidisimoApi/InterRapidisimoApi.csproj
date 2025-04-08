@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\InterRapidisimoApplication\InterRapidisimoApplication.csproj" />
     <ProjectReference Include="..\InterRapidisimoData\InterRapidisimoData.csproj" />
+    <ProjectReference Include="..\InterRapidisimoEventBus\InterRapidisimoEventBus.csproj" />
     <ProjectReference Include="..\InterRapidisimoInfrastructure\InterRapidisimoInfrastructure.csproj" />
   </ItemGroup>
 
