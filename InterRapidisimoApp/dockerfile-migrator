@@ -1,0 +1,25 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+
+WORKDIR /app
+
+# Instalar netcat y dotnet-ef
+RUN apt-get update && apt-get install -y netcat-openbsd
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
+
+COPY . .
+
+# Copiamos los scripts
+COPY wait-for-it /usr/bin/wait-for-it
+COPY entrypoint.sh /entrypoint.sh
+
+RUN ls -l /usr/bin/wait-for-it && ls -l /entrypoint.sh
+
+# Damos permisos de ejecución
+RUN chmod +x /usr/bin/wait-for-it /entrypoint.sh
+
+# Entrypoint que ejecuta el comando que pongamos en CMD
+ENTRYPOINT ["/entrypoint.sh"]
+
+# Comando final: ejecutar migraciones
+CMD ["/usr/bin/wait-for-it", "sqlserver:1433", "--", "dotnet", "ef", "database", "update", "--project", "InterRapidisimoData/InterRapidisimoData.csproj"]

@@ -42,5 +42,4 @@ public class CreateProfessorCommand : IRequest<Result<ProfessorDto>>
             return Result.Success(_mapper.Map<ProfessorDto>(professor.Value));
         }
     }
-
 }

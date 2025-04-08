@@ -1,40 +1,81 @@
-version: '3.8'
-
+networks:
+  inter-network:
+    driver: bridge
 services:
-  interrapidisimoapi:
-    build:
-      context: .
-      dockerfile: ./InterRapidisimoApi/Dockerfile
-    container_name: interrapidisimo-api
-    depends_on:
-      - sqlserver
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DbConnection=Server=sqlserver;Database=InterDb;User=sa;Password=Y0k0gawA_19929495;Encrypt=False;TrustServerCertificate=True;
-    ports:
-      - "8080:8080"
-      - "8081:8081"
-    networks:
-        - interNetwork
+    sqlserver:
+        build:
+          context: .
+          dockerfile: dockerfile-db
+        dns:
+          - 8.8.8.8
+        container_name: sqlserver
+        environment:
+          SA_PASSWORD: ${SA_PASSWORD}
+          ACCEPT_EULA: ${ACCEPT_EULA}
+        ports:
+          - "1433:1433"
+        volumes:
+          - sqlvolume:/var/opt/mssql
+        networks:
+          - inter-network
+        healthcheck:
+          test: [
+            "CMD-SHELL",
+            "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${SA_PASSWORD} -Q \"SELECT 1\" || exit 1"
+          ]
+          interval: 10s
+          timeout: 5s
+          retries: 10
 
-  # Servicio de SQL Server
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver
-    restart: always
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Y0k0gawA_19929495
-    ports:
-      - "1433:1433"
-    volumes:
-      - sqlvolume:/var/opt/mssql
-    networks:
-      - interNetwork
+    migrator:
+        container_name: migrator-container
+        build:
+          context: .
+          dockerfile: dockerfile-migrator
+        dns:
+          - 8.8.8.8
+        environment:
+          SA_PASSWORD: ${SA_PASSWORD}
+          ACCEPT_EULA: ${ACCEPT_EULA}
+          SQLSERVER_HOST: sqlserver
+          SQLSERVER_USER: ${SQLSERVER_USER}
+          SQLSERVER_DB: ${SQLSERVER_DB}
+        depends_on:
+          sqlserver:
+            condition: service_healthy
+        networks:
+          - inter-network
+
+    interrapidisimoapi:
+        container_name: interrapidisimo-api
+        build:
+          context: .
+          dockerfile: InterRapidisimoApi/Dockerfile
+        ports:
+          - "8000:8080"
+        environment:
+          SQLSERVER_HOST: sqlserver
+          SQLSERVER_USER: ${SQLSERVER_USER}
+          SA_PASSWORD: ${SA_PASSWORD}
+          SQLSERVER_DB: ${SQLSERVER_DB}
+          DbConnection: "Server=sqlserver;Database=${SQLSERVER_DB};User Id=${SQLSERVER_USER};Password=${SA_PASSWORD};Encrypt=False;Trust Server Certificate=True;"
+        depends_on:
+            migrator:
+                condition: service_completed_successfully
+        networks:
+            - inter-network
+
+    rabbitmq:
+        image: rabbitmq:3.9-management
+        hostname: ${RABBITMQ_HOSTNAME}
+        ports:
+          - "5672:5672"
+          - "15672:15672"
+        environment:
+          RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+          RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+        networks:
+        - inter-network
 
 volumes:
   sqlvolume:
-
-networks:
-  interNetwork:
-    driver: bridge
